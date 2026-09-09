@@ -75,7 +75,6 @@ Heritage Ecommerce is designed as a complete commerce ecosystem:
 * Coupon application
 * Automatic discounts
 * Shipping calculation
-* Tax calculation
 * Abandoned-cart detection
 
 ### Cart Flow
