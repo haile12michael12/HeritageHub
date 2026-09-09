@@ -82,7 +82,7 @@ Heritage Ecommerce is designed as a complete commerce ecosystem:
 ```text
 Product
    ↓
-Add to Cart
+Add to Carts
    ↓
 Cart Validation
    ↓
