@@ -1,0 +1,48 @@
+{
+  "common": {
+    "cancel": "ይቅር",
+    "close": "ዝጋ",
+    "confirm": "አረጋግጥ",
+    "continue": "ቀጥል",
+    "loading": "በመጫን ላይ...",
+    "save": "አስቀምጥ",
+    "search": "ፈልግ"
+  },
+  "navigation": {
+    "home": "መነሻ",
+    "shop": "ሱቅ",
+    "categories": "ምድቦች",
+    "cart": "ጋሪ",
+    "orders": "ትዕዛዞች",
+    "account": "መለያ"
+  },
+  "auth": {
+    "login": "ግባ",
+    "register": "መለያ ፍጠር",
+    "logout": "ውጣ",
+    "email": "የኢሜይል አድራሻ",
+    "password": "የይለፍ ቃል"
+  },
+  "catalog": {
+    "products": "ምርቶች",
+    "noProducts": "ምንም ምርት አልተገኘም",
+    "addToCart": "ወደ ጋሪ ጨምር",
+    "price": "ዋጋ",
+    "inStock": "በክምችት ውስጥ አለ",
+    "outOfStock": "ከክምችት ውጭ ነው"
+  },
+  "cart": {
+    "title": "የግዢ ጋሪ",
+    "empty": "ጋሪዎ ባዶ ነው",
+    "quantity": "ብዛት",
+    "subtotal": "ንዑስ ድምር",
+    "checkout": "ወደ ክፍያ ይቀጥሉ"
+  },
+  "orders": {
+    "title": "ትዕዛዞችዎ",
+    "orderNumber": "የትዕዛዝ ቁጥር",
+    "status": "ሁኔታ",
+    "placedOn": "የተደረገበት ቀን",
+    "track": "ትዕዛዙን ይከታተሉ"
+  }
+}
