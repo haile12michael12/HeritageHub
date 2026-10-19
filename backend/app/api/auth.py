@@ -1,3 +1,5 @@
+import hmac
+import secrets
 from urllib.parse import urlencode
 
 from fastapi import APIRouter, Depends, Request, status
@@ -76,41 +78,70 @@ async def reset_password(
 
 @router.get("/google")
 async def google_reg_login():
+    state = secrets.token_urlsafe(32)
     params = {
         "client_id": settings.GOOGLE_CLIENT_ID,
         "redirect_uri": settings.GOOGLE_REDIRECT_URL,
         "response_type": "code",
         "scope": "email profile",
         "access_type": "offline",
+        "state": state,
     }
     auth_url = f"{settings.GOOGLE_AUTH_BASE_URL}?{urlencode(params)}"
-    return RedirectResponse(url=auth_url)
+    response = RedirectResponse(url=auth_url)
+    response.set_cookie(
+        "oauth_state",
+        state,
+        max_age=600,
+        httponly=True,
+        secure=True,
+        samesite="lax",
+        path="/api/auth/google/callback",
+    )
+    return response
 
 
 @router.get("/google/callback")
 async def google_callback(
     request: Request, code: str | None = None, db: AsyncSession = Depends(db_session)
 ):
-    # Do not echo arbitrary provider error text into a redirect URL.
-    if request.query_params.get("error") or not code:
-        return RedirectResponse(
+    returned_state = request.query_params.get("state", "")
+    saved_state = request.cookies.get("oauth_state", "")
+    if (
+        not returned_state
+        or not saved_state
+        or not hmac.compare_digest(returned_state, saved_state)
+    ):
+        response = RedirectResponse(
             url=f"{settings.FRONTEND_URL}/auth-error?error=oauth_failed"
         )
+        response.delete_cookie("oauth_state", path="/api/auth/google/callback")
+        return response
+
+    # Do not echo arbitrary provider error text into a redirect URL.
+    if request.query_params.get("error") or not code:
+        response = RedirectResponse(
+            url=f"{settings.FRONTEND_URL}/auth-error?error=oauth_failed"
+        )
+        response.delete_cookie("oauth_state", path="/api/auth/google/callback")
+        return response
 
     try:
         user = await process_google_callback_workflow(db, code)
         auth_token = await generate_user_token(user)
 
-        # Compatibility note: the frontend must be migrated to a one-time-code
-        # exchange or a secure cookie before removing the token query parameter.
-        # Never log this redirect URL: it currently contains a bearer credential.
+        # Compatibility note: migrate the frontend to a one-time-code exchange
+        # before removing the bearer token from this URL.
         redirect_url = (
             f"{settings.FRONTEND_URL}/auth-success?"
             f"{urlencode({'token': auth_token, 'role': user.role.value})}"
         )
-        return RedirectResponse(url=redirect_url)
+        response = RedirectResponse(url=redirect_url)
+        response.delete_cookie("oauth_state", path="/api/auth/google/callback")
+        return response
     except Exception:
-        # Avoid returning exception details, provider payloads, or tokens to clients.
-        return RedirectResponse(
+        response = RedirectResponse(
             url=f"{settings.FRONTEND_URL}/auth-error?error=oauth_failed"
         )
+        response.delete_cookie("oauth_state", path="/api/auth/google/callback")
+        return response
