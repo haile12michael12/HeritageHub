@@ -1,4 +1,4 @@
-from pydantic import EmailStr
+from pydantic import EmailStr, Field
 
 from app.models.user import UserRole
 from app.schemas.schema_base import SchemaBaseModel
@@ -6,9 +6,8 @@ from app.schemas.schema_base import SchemaBaseModel
 
 class UserCreate(SchemaBaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=12, max_length=128)
     name: str
-    role: UserRole | None = UserRole.CUSTOMER
 
 
 class UserRead(SchemaBaseModel):
@@ -23,7 +22,7 @@ class UserRead(SchemaBaseModel):
 
 class UserLogin(SchemaBaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=1, max_length=128)
 
 
 class TokenData(SchemaBaseModel):
@@ -39,7 +38,7 @@ class UserUpdate(SchemaBaseModel):
 
 class PasswordUpdate(SchemaBaseModel):
     old_password: str
-    new_password: str
+    new_password: str = Field(min_length=12, max_length=128)
 
 
 class ForgotPasswordRequest(SchemaBaseModel):
@@ -47,5 +46,5 @@ class ForgotPasswordRequest(SchemaBaseModel):
 
 
 class ResetPasswordRequest(SchemaBaseModel):
-    code: str
-    password: str
+    code: str = Field(min_length=6, max_length=128)
+    password: str = Field(min_length=12, max_length=128)
