@@ -1,85 +1,32 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
+import CartDrawer from '@/components/CartDrawer.vue'
+import { useUiStore } from '@/stores/ui'
+const ui = useUiStore()
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="min-h-screen flex flex-col bg-[#fffaf0]">
+    <AppHeader />
+    <main class="flex-1">
+      <RouterView />
+    </main>
+    <AppFooter />
+    <CartDrawer />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <!-- Toasts -->
+    <div class="fixed bottom-4 right-4 z-50 space-y-2">
+      <div v-for="t in ui.toasts" :key="t.id" class="px-4 py-3 rounded-2xl shadow-lifted border text-sm font-semibold flex items-center gap-2"
+        :class="t.type==='success' ? 'bg-emerald-600 text-white border-emerald-700' : t.type==='error' ? 'bg-red-600 text-white' : 'bg-ink-900 text-white'">
+        <span>{{ t.message }}</span>
+      </div>
     </div>
-  </header>
 
-  <RouterView />
+    <!-- Live notif demo -->
+    <div class="fixed top-[88px] left-1/2 -translate-x-1/2 z-40 hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-ink-900 text-white text-xs font-semibold shadow-lifted">
+      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> Live: Order #10242 shipped to Bishoftu • Tracking updated via WebSocket
+    </div>
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>

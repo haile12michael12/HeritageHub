@@ -10,6 +10,9 @@ from .product import Product
 from .reset_code import ResetCode
 from .review import Review
 from .user import User
+from .wishlist import Wishlist
+from .coupon import Coupon
+from .audit_log import AuditLog
 
 
 __all__ = [
@@ -25,4 +28,7 @@ __all__ = [
     "Product",
     "ResetCode",
     "Review",
+    "Wishlist",
+    "Coupon",
+    "AuditLog",
 ]

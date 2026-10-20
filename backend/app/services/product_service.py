@@ -48,18 +48,57 @@ async def create_product(
 
 
 async def get_all_products(
-    db: AsyncSession, category_id: int | None = None
-) -> list[Product]:
-    # 1. Start with the base statement
+    db: AsyncSession,
+    category_id: int | None = None,
+    q: str | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None,
+    sort_by: str | None = None,
+    page: int = 1,
+    page_size: int = 12,
+) -> dict:
+    from sqlalchemy import func, or_
+    from app.core.pagination import paginate_params
+
+    page, page_size, offset = paginate_params(page, page_size)
     statement = select(Product)
-
-    # 2. Add filter if category_id is provided
+    count_stmt = select(func.count()).select_from(Product)
+    filters = []
     if category_id:
-        statement = statement.where(Product.category_id == category_id)
+        filters.append(Product.category_id == category_id)
+    if q:
+        like = f"%{q}%"
+        filters.append(or_(Product.name.ilike(like), Product.description.ilike(like)))
+    if min_price is not None:
+        filters.append(Product.price >= min_price)
+    if max_price is not None:
+        filters.append(Product.price <= max_price)
 
-    # 3. Execute and return unpacked list of instances
+    for f in filters:
+        statement = statement.where(f)
+        count_stmt = count_stmt.where(f)
+
+    total = (await db.scalar(count_stmt)) or 0
+
+    if sort_by == "price_asc":
+        statement = statement.order_by(Product.price.asc())
+    elif sort_by == "price_desc":
+        statement = statement.order_by(Product.price.desc())
+    elif sort_by == "name":
+        statement = statement.order_by(Product.name.asc())
+    else:
+        statement = statement.order_by(Product.created_at.desc())
+
+    statement = statement.offset(offset).limit(page_size)
     results = await db.scalars(statement)
-    return list(results.all())
+    items = list(results.all())
+    return {
+        "items": items,
+        "total": total,
+        "page": page,
+        "pageSize": page_size,
+        "totalPages": (total + page_size - 1)//page_size if total else 1,
+    }
 
 
 async def get_product_by_id(db: AsyncSession, product_id: int) -> Product:

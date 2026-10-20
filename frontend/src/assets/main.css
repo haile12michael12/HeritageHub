@@ -1,35 +1,34 @@
-@import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
+@layer base {
+  html { scroll-behavior: smooth; }
   body {
-    display: flex;
-    place-items: center;
+    @apply bg-white text-ink-800 font-sans antialiased;
   }
+  h1,h2,h3 { @apply font-display tracking-tight; }
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-heritage-600 hover:bg-heritage-700 text-white font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-soft hover:shadow-lifted active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 bg-white border border-ink-200 hover:border-ink-300 text-ink-800 font-medium px-6 py-3 rounded-full transition;
+  }
+  .card {
+    @apply bg-white rounded-3xl border border-ink-100 shadow-soft hover:shadow-lifted transition;
+  }
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase;
+  }
+  .input {
+    @apply w-full px-4 py-3 rounded-2xl border border-ink-200 bg-white placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-heritage-500/20 focus:border-heritage-500 transition;
   }
 }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #d1ccc4; border-radius: 999px; }
+::-webkit-scrollbar-track { background: transparent; }

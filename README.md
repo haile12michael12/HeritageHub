@@ -1,996 +1,90 @@
-# 🛍️ Heritage Ecommerce
+# 🛍️ HeritageHub — Ethiopia's Artisan Marketplace
 
-> **Modern AI-powered, multi-vendor e-commerce platform built with FastAPI and Vue.js**
+> **Premium, AI-powered, multi-vendor e-commerce platform. Crafted for Ethiopia, ready for the world.**
 
-Heritage Ecommerce is a scalable and production-ready e-commerce platform designed to provide a complete digital shopping experience for customers, vendors, administrators, and delivery agents.
+HeritageHub is a production-grade commerce ecosystem combining Ethiopian heritage commerce with modern tech: **FastAPI + Vue 3, real-time WebSockets, AI search, advanced analytics, and local payment rails (Telebirr, Chapa).**
 
-The platform combines **modern e-commerce functionality, multi-vendor marketplace capabilities, secure payments, inventory management, delivery tracking, analytics, real-time communication, and AI-powered shopping features**.
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-2.0-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Vue_3-Premium-42b883?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Tailwind-Pro-38bdf8?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/AI-Ready-7c3aed?style=for-the-badge" />
+</p>
 
 ---
 
-## 🚀 Project Overview
+## ✨ What’s New — Professional Upgrade (v2.0)
 
-Heritage Ecommerce is designed as a complete commerce ecosystem:
+This release transforms HeritageHub from a starter template into a **sellable product**:
 
-```text
-                         HERITAGE ECOMMERCE
-                                │
-             ┌──────────────────┼──────────────────┐
-             │                  │                  │
-         Customers           Vendors            Admin
-             │                  │                  │
-             └──────────────────┼──────────────────┘
-                                │
-                         Commerce Platform
-                                │
-          ┌─────────────┬───────┼────────┬─────────────┐
-          │             │       │        │             │
-       Payments      Inventory Orders  Delivery       AI
-          │             │       │        │             │
-          └─────────────┴───────┼────────┴─────────────┘
-                                │
-                         Analytics & Security
+### Frontend Pro Overhaul
+- **Design System**: Heritage gold / ink palette, Playfair + Inter, soft shadows, 2xl/3xl radii, motion
+- **8 Premium Views**: Home (hero, categories, flash sale, artisan spotlight, testimonials), Shop with filters & pagination, Product detail with gallery & reviews, Cart drawer + Cart page, Checkout (address → payment → confirmation), Wishlist, Orders with live tracking, Profile, Admin analytics
+- **Real-time UI**: Live order ticker, WebSocket-ready notifications, optimistic cart, toast system
+- **State**: Pinia stores (auth, cart, wishlist, ui), Axios service with interceptors, demo-fallback for offline preview
+- **DX**: Vite proxy, `0.0.0.0` preview host, PWA-ready meta, SEO tags, Tailwind v3.4
+
+### Backend Advanced Features
+- **Search & Filtering**: `GET /search` with `q`, category, price range, sorting, suggestions & trending
+- **Wishlist**: `GET/POST/DELETE /wishlist` with idempotent checks
+- **Coupons**: `POST /coupons` + `POST /coupons/validate` (percentage / fixed / free-shipping, expiry, usage limits)
+- **Analytics Pro**: `/analytics/overview` + `/analytics/revenue-chart` (daily revenue, AOV, conversion)
+- **Notifications**: REST + `WS /notifications/ws/{user_id}` with broadcast manager
+- **Middleware**: Request-ID + timing header, in-memory rate limiter (strict for auth), structured logging
+- **Pagination Utility**: `PaginatedResponse` reuse across endpoints
+- **Models**: `Wishlist`, `Coupon`, `AuditLog` added to Core domain
+- **Docs**: Enriched OpenAPI tags, health endpoint with feature list, permissive CORS for preview
+
+---
+
+## 🏗️ Architecture
+
+```
+                 HERITAGEHUB
+                     │
+        ┌────────────┼────────────┐
+        │            │            │
+    Customers    Vendors       Admin
+        └────────────┼────────────┘
+                     │
+              Commerce Platform (API)
+     ┌───────┬───────┼──────┬──────┬──────┐
+     │       │       │      │      │      │
+  Payments Inventory Orders Delivery AI  Analytics
+     └───────┴───────┼──────┴──────┴──────┘
+                     │
+              Vue 3 + Vite + Pinia
+                     │
+            Tailwind • WebSockets • PWA
 ```
 
 ---
 
-# ✨ Key Features
+## 🚀 Quick Start
 
-## 👤 Customer Features
-
-* User registration and authentication
-* Email verification
-* Password reset
-* Social authentication
-* User profile
-* Multiple delivery addresses
-* Product browsing
-* Product search
-* Advanced filtering
-* Product categories
-* Product variants
-* Product comparison
-* Wishlist
-* Recently viewed products
-* Related products
-* Frequently bought together
-* Personalized recommendations
-* Product reviews
-* Verified purchase reviews
-* Product questions and answers
-* Price-drop notifications
-* Back-in-stock notifications
-
----
-
-# 🛒 Advanced Shopping Cart
-
-* Guest cart
-* Persistent cart
-* Cart synchronization
-* Cart merge after login
-* Quantity management
-* Stock validation
-* Save for later
-* Coupon application
-* Automatic discounts
-* Shipping calculation
-* Abandoned-cart detection
-
-### Cart Flow
-
-```text
-Product
-   ↓
-Add to Carts
-   ↓
-Cart Validation
-   ↓
-Coupon / Discount
-   ↓
-Shipping
-   ↓
-Checkout
-```
-
----
-
-# 💳 Payment System
-
-Heritage Ecommerce uses a flexible payment architecture that allows multiple payment providers.
-
-### Supported Payment Architecture
-
-```text
-                    Payment Service
-                          │
-           ┌──────────────┼──────────────┐
-           │              │              │
-        Stripe         Local Bank      Wallet
-           │              │              │
-           └──────────────┼──────────────┘
-                          │
-                   Payment Transaction
-```
-
-### Features
-
-* Payment processing
-* Payment verification
-* Payment webhooks
-* Payment transaction history
-* Failed payment handling
-* Payment retry
-* Refunds
-* Partial refunds
-* Payment status tracking
-* Cash on delivery
-* Bank transfer support
-* Ethiopian payment gateway integration
-
----
-
-# 📦 Order Management
-
-Complete order lifecycle:
-
-```text
-Pending
-   ↓
-Confirmed
-   ↓
-Processing
-   ↓
-Packed
-   ↓
-Shipped
-   ↓
-Out for Delivery
-   ↓
-Delivered
-```
-
-### Order Features
-
-* Create order
-* Order history
-* Order details
-* Order tracking
-* Order cancellation
-* Return requests
-* Exchange requests
-* Refund requests
-* Partial refunds
-* Order timeline
-* Invoice generation
-* PDF invoice
-* Customer order notifications
-
----
-
-# 🏪 Multi-Vendor Marketplace
-
-Vendors can operate their own stores inside Heritage Ecommerce.
-
-### Vendor Features
-
-* Vendor registration
-* Vendor verification
-* Store profile
-* Product management
-* Product variants
-* Inventory management
-* Order management
-* Customer management
-* Coupon management
-* Sales analytics
-* Revenue reports
-* Commission tracking
-* Withdrawal requests
-* Vendor ratings
-* Vendor reviews
-
-### Vendor Architecture
-
-```text
-Vendor
-  │
-  ├── Store
-  ├── Products
-  ├── Orders
-  ├── Customers
-  ├── Inventory
-  ├── Coupons
-  ├── Reviews
-  ├── Analytics
-  ├── Commissions
-  └── Payouts
-```
-
----
-
-# 📦 Inventory Management
-
-Heritage Ecommerce supports advanced inventory management.
-
-### Features
-
-* SKU management
-* Product variants
-* Multiple warehouses
-* Stock tracking
-* Reserved stock
-* Available stock
-* Low-stock alerts
-* Stock adjustments
-* Stock transfers
-* Stock movement history
-* Inventory audit
-* Purchase orders
-
-### Inventory Structure
-
-```text
-Product
-   ↓
-Variant
-   ↓
-Warehouse
-   ↓
-Inventory
-   ↓
-Stock Movement
-```
-
----
-
-# 🚚 Delivery & Logistics
-
-Dedicated delivery management system.
-
-### Delivery Agent Features
-
-* Delivery agent accounts
-* Assigned deliveries
-* Delivery dashboard
-* Order details
-* Customer information
-* Delivery status updates
-* Delivery proof
-* Customer signature
-* Delivery photo
-* Failed delivery reasons
-* Delivery history
-
-### Delivery Tracking
-
-```text
-Order Created
-      ↓
-Warehouse
-      ↓
-Packed
-      ↓
-Shipped
-      ↓
-Delivery Agent
-      ↓
-Out for Delivery
-      ↓
-Customer
-      ↓
-Delivered
-```
-
----
-
-# 🤖 AI-Powered Features
-
-Heritage Ecommerce includes an AI-ready architecture.
-
-### AI Product Recommendations
-
-The recommendation engine can use:
-
-* Browsing history
-* Purchase history
-* Wishlist
-* Product interactions
-* Categories
-* Similar products
-
-```text
-Customer Behavior
-       ↓
-Recommendation Engine
-       ↓
-AI Processing
-       ↓
-Personalized Products
-```
-
-### AI Shopping Assistant
-
-Customers can search using natural language.
-
-Example:
-
-```text
-"Show me a laptop for programming
-under 50,000 ETB with 16GB RAM."
-```
-
-The system can convert the request into structured product filters.
-
-### Other AI Features
-
-* AI product search
-* Personalized recommendations
-* Similar-product recommendations
-* Smart upselling
-* Smart cross-selling
-* Review sentiment analysis
-* Product description generation
-* Customer behavior analysis
-
----
-
-# 🔎 Advanced Search
-
-* Full-text search
-* Search suggestions
-* Typo tolerance
-* Product filters
-* Category filtering
-* Brand filtering
-* Price filtering
-* Rating filtering
-* Availability filtering
-* Search history
-* Popular searches
-* Search analytics
-* Zero-result tracking
-
-Future-ready search architecture:
-
-```text
-Vue.js
-   ↓
-FastAPI
-   ↓
-Search Service
-   ↓
-PostgreSQL / OpenSearch
-   ↓
-Products
-```
-
----
-
-# 🔔 Notification System
-
-Central notification architecture supporting:
-
-* In-app notifications
-* Email notifications
-* SMS notifications
-* Push notifications
-
-### Events
-
-* Order placed
-* Payment successful
-* Order shipped
-* Order delivered
-* Refund completed
-* Product back in stock
-* Price dropped
-* New promotion
-* Vendor notification
-* Admin notification
-
----
-
-# 💬 Customer Support
-
-Built-in support system.
-
-### Features
-
-* Support tickets
-* Ticket categories
-* Priority management
-* Ticket assignment
-* Support agents
-* Internal notes
-* Attachments
-* Customer messages
-* Ticket history
-* SLA tracking
-
----
-
-# 💬 Real-Time Communication
-
-FastAPI WebSockets can be used for real-time functionality.
-
-### Real-Time Features
-
-* Live order status
-* Delivery updates
-* Real-time notifications
-* Customer support chat
-* Vendor notifications
-* Live inventory updates
-* Admin notifications
-
----
-
-# 🎟️ Promotion Engine
-
-Advanced promotional rules:
-
-```text
-IF
-Customer = New
-AND
-Cart > 2,000 ETB
-
-THEN
-Discount = 10%
-```
-
-### Promotion Types
-
-* Percentage discount
-* Fixed discount
-* Buy X Get Y
-* Free shipping
-* Category discount
-* Product discount
-* Vendor discount
-* First-order discount
-* Flash sales
-* Coupon codes
-* Usage limits
-* Expiration dates
-
----
-
-# 🛡️ Security
-
-Security is a core part of the platform.
-
-### Authentication
-
-* JWT authentication
-* Access tokens
-* Refresh tokens
-* Token rotation
-* Password hashing
-* Email verification
-* Password reset
-* OAuth
-* Optional 2FA
-* Session management
-* Login history
-
-### Role-Based Access Control
-
-```text
-SUPER_ADMIN
-     │
-ADMIN
-     │
- ┌───┼───────────────┐
- │   │               │
-Vendor Support   Delivery Agent
- │
-Customer
-```
-
-### Permission Examples
-
-```text
-product.create
-product.read
-product.update
-product.delete
-
-order.read
-order.update
-order.refund
-
-vendor.verify
-vendor.suspend
-
-user.create
-user.update
-user.delete
-```
-
----
-
-# 🚨 Fraud Detection
-
-The platform can assign a risk score to suspicious orders.
-
-Example:
-
-```text
-Order #10025
-
-Risk Score: 82 / 100
-
-Reasons:
-✓ New account
-✓ High-value order
-✓ Multiple failed payments
-✓ Different billing/shipping address
-
-Status:
-Manual Review
-```
-
----
-
-# 📊 Admin Dashboard
-
-The administration panel provides complete control.
-
-### Admin Modules
-
-```text
-Dashboard
-├── Users
-├── Vendors
-├── Products
-├── Categories
-├── Brands
-├── Orders
-├── Payments
-├── Refunds
-├── Inventory
-├── Warehouses
-├── Deliveries
-├── Coupons
-├── Promotions
-├── Reviews
-├── Support
-├── Notifications
-├── Analytics
-├── CMS
-├── Audit Logs
-└── Settings
-```
-
-### Analytics
-
-* Revenue
-* Orders
-* Customers
-* Vendors
-* Products
-* Profit
-* Refunds
-* Conversion rate
-* Average order value
-* Customer growth
-* Top products
-* Top vendors
-* Top categories
-* Sales by location
-* Payment methods
-
----
-
-# 📈 Analytics & Event Tracking
-
-Heritage Ecommerce can track customer behavior.
-
-### Events
-
-```text
-product_view
-search
-add_to_cart
-remove_from_cart
-wishlist_added
-checkout_started
-payment_started
-purchase_completed
-review_created
-```
-
-### Business Metrics
-
-```text
-Conversion Rate
-Cart Abandonment Rate
-Average Order Value
-Customer Lifetime Value
-Repeat Purchase Rate
-Revenue Growth
-```
-
----
-
-# 🇪🇹 Ethiopia-Ready Features
-
-Heritage Ecommerce is designed to support the Ethiopian market.
-
-### Currency
-
-```text
-ETB
-USD
-EUR
-```
-
-### Ethiopian Payment Integration
-
-The payment layer is designed to support local providers such as:
-
-* Telebirr
-* Chapa
-* Bank transfer
-* Other local payment providers
-
-### Ethiopian Address Structure
-
-```text
-Region
-   ↓
-City
-   ↓
-Sub-City
-   ↓
-Woreda
-   ↓
-Delivery Area
-```
-
----
-
-# 📱 Progressive Web App
-
-The frontend can be configured as a PWA.
-
-Features:
-
-* Installable web application
-* Mobile-first interface
-* Push notifications
-* Offline caching
-* Fast loading
-* Add to home screen
-* Responsive checkout
-
----
-
-# 🏗️ Technology Stack
-
-## Backend
-
-* Python
-* FastAPI
-* SQLAlchemy
-* PostgreSQL
-* Redis
-* Celery / background workers
-* JWT
-* Pydantic
-* WebSockets
-* REST API
-
-## Frontend
-
-* Vue.js
-* Vite
-* JavaScript / TypeScript
-* Pinia
-* Vue Router
-* Axios
-* Tailwind CSS
-
-## Infrastructure
-
-* Docker
-* Docker Compose
-* Nginx
-* PostgreSQL
-* Redis
-* Object Storage
-* CI/CD
-
-## AI
-
-Architecture can support:
-
-* LLM APIs
-* Local AI models
-* Embedding models
-* Vector database
-* Recommendation engine
-* Semantic search
-
----
-
-# 📁 Project Structure
-
-```text
-heritage-ecommerce/
-│
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── v1/
-│   │   │       ├── auth.py
-│   │   │       ├── users.py
-│   │   │       ├── products.py
-│   │   │       ├── categories.py
-│   │   │       ├── cart.py
-│   │   │       ├── checkout.py
-│   │   │       ├── orders.py
-│   │   │       ├── payments.py
-│   │   │       ├── vendors.py
-│   │   │       ├── inventory.py
-│   │   │       ├── delivery.py
-│   │   │       ├── reviews.py
-│   │   │       ├── coupons.py
-│   │   │       ├── notifications.py
-│   │   │       ├── support.py
-│   │   │       └── analytics.py
-│   │   │
-│   │   ├── models/
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   ├── repositories/
-│   │   ├── workers/
-│   │   ├── events/
-│   │   ├── middleware/
-│   │   ├── core/
-│   │   └── main.py
-│   │
-│   ├── migrations/
-│   ├── tests/
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── layouts/
-│   │   ├── views/
-│   │   │   ├── customer/
-│   │   │   ├── admin/
-│   │   │   ├── vendor/
-│   │   │   └── delivery/
-│   │   ├── stores/
-│   │   ├── services/
-│   │   ├── composables/
-│   │   ├── router/
-│   │   ├── types/
-│   │   └── utils/
-│   │
-│   ├── public/
-│   ├── package.json
-│   └── vite.config.js
-│
-├── docker/
-├── nginx/
-├── docs/
-├── scripts/
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
-
----
-
-# 🗄️ Core Database Entities
-
-```text
-users
-roles
-permissions
-user_roles
-role_permissions
-
-products
-product_variants
-product_images
-categories
-brands
-attributes
-attribute_values
-
-warehouses
-inventories
-stock_movements
-
-carts
-cart_items
-wishlists
-
-orders
-order_items
-order_addresses
-order_status_history
-
-payments
-payment_transactions
-refunds
-
-vendors
-vendor_products
-vendor_commissions
-vendor_payouts
-
-coupons
-promotions
-promotion_products
-
-reviews
-review_images
-
-shipments
-delivery_agents
-delivery_tracking
-
-notifications
-notification_preferences
-
-support_tickets
-support_messages
-
-search_history
-product_views
-analytics_events
-
-audit_logs
-```
-
----
-
-# ⚙️ Installation
-
-## 1. Clone the Project
-
-```bash
-git clone <repository-url>
-
-cd heritage-ecommerce
-```
-
----
-
-# Backend Setup
+### Backend
 
 ```bash
 cd backend
-
-python -m venv venv
-```
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Create environment file:
-
-```bash
 cp .env.example .env
+# set DATABASE_URL and secrets
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8084
+# docs → http://localhost:8084/docs
 ```
 
-Configure:
-
-```env
-DATABASE_URL=postgresql://postgres:password@localhost:5432/heritage_ecommerce
-
-REDIS_URL=redis://localhost:6379
-
-SECRET_KEY=your-secret-key
-
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-STRIPE_SECRET_KEY=
-
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USERNAME=
-SMTP_PASSWORD=
-```
-
-Run migrations:
-
-```bash
-alembic upgrade head
-```
-
-Start the API:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-API:
-
-```text
-http://localhost:8000
-```
-
-API documentation:
-
-```text
-http://localhost:8000/docs
-```
-
----
-
-# Frontend Setup
+### Frontend
 
 ```bash
 cd frontend
-
 npm install
+cp .env.example .env
+npm run dev        # http://localhost:5173
+npm run build      # production
+npm run preview    # http://localhost:4173
 ```
 
-Create:
-
-```text
-.env
-```
-
-Example:
-
-```env
-VITE_API_URL=http://localhost:8000/api/v1
-```
-
-Run development server:
-
-```bash
-npm run dev
-```
-
-Frontend:
-
-```text
-http://localhost:5173
-```
-
----
-
-# 🐳 Docker
-
-Run the complete development environment:
-
-```bash
-docker compose up -d
-```
-
-Stop:
-
-```bash
-docker compose down
-```
-
-Rebuild:
+### Docker
 
 ```bash
 docker compose up --build
@@ -998,252 +92,89 @@ docker compose up --build
 
 ---
 
-# 🧪 Testing
+## 🔌 API Highlights
 
-Backend:
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/health` | Service health + feature flags |
+| GET | `/api/products` | List with `q`, `category_id`, `min/max_price`, `sort_by`, `page`, `page_size` |
+| GET | `/api/search` | Advanced search + pagination |
+| GET | `/api/search/suggestions?q=` | Autocomplete |
+| GET | `/api/search/trending` | Trending products |
+| GET/POST/DELETE | `/api/wishlist` | Wishlist CRUD |
+| GET/POST | `/api/coupons` | Manage coupons (admin) |
+| POST | `/api/coupons/validate` | Validate & calculate discount |
+| GET | `/api/analytics/overview` | KPI overview |
+| GET | `/api/analytics/revenue-chart?days=7` | Daily revenue |
+| GET | `/api/notifications` | List notifications |
+| WS | `/api/notifications/ws/{user_id}` | Real-time |
+| POST | `/api/notifications/send/{user_id}` | Push test |
 
-```bash
-pytest
+All responses wrapped in `{ status, message, data }` via `ApiResponse`.
+
+---
+
+## 🎨 Design Tokens
+
+- **Heritage**: `#e67e00` → `#6d2800` (primary)
+- **Ink**: `#1a1816` (text), `#f8f7f6` (bg)
+- **Radius**: `2xl` / `3xl` / `4xl`
+- **Shadow**: `soft` / `lifted` / `glow`
+- **Fonts**: Playfair Display (display) + Inter (sans)
+
+---
+
+## 🇪🇹 Ethiopia-Ready
+
+- ETB primary, USD/EUR display
+- Telebirr, Chapa, Bank transfer, COD
+- Address: Region → City → Sub-City → Woreda
+- Next-day delivery in Addis/Bishoftu
+
+---
+
+## 📦 Project Structure (updated)
+
 ```
-
-Frontend:
-
-```bash
-npm run test
-```
-
-Build:
-
-```bash
-npm run build
+heritage-ecommerce/
+├── backend/
+│   ├── app/
+│   │   ├── api/ (auth, products, cart, orders, payments, wishlist, coupons, search, analytics, notifications_ws, ...)
+│   │   ├── models/ (wishlist, coupon, audit_log, ...)
+│   │   ├── core/ (pagination, rate_limiter, security, config)
+│   │   ├── middleware/ (request_id)
+│   │   └── main.py (pro FastAPI with middleware & docs)
+│   ├── .env.example
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── components/ (AppHeader, AppFooter, ProductCard, CartDrawer)
+│   │   ├── views/ (Home, Shop, Product, Cart, Checkout, Wishlist, Orders, Profile, Admin, Auth)
+│   │   ├── stores/ (auth, cart, wishlist, ui)
+│   │   ├── services/ (api.ts)
+│   │   └── assets/main.css (Tailwind + design system)
+│   ├── tailwind.config.js
+│   └── vite.config.ts (preview-ready)
+└── README.md
 ```
 
 ---
 
-# 🔐 API Architecture
+## 🔒 Security
 
-```text
-Vue.js
-   │
-   │ HTTPS / REST
-   ↓
-Nginx
-   │
-   ↓
-FastAPI
-   │
-   ├── Authentication
-   ├── Product Service
-   ├── Cart Service
-   ├── Order Service
-   ├── Payment Service
-   ├── Vendor Service
-   ├── Inventory Service
-   ├── Delivery Service
-   ├── Notification Service
-   ├── Analytics Service
-   └── AI Service
-          │
-          ├── PostgreSQL
-          ├── Redis
-          └── Vector Database
-```
+- JWT (HS256, 30d), bcrypt/argon2, rate limiting, request IDs, audit logs, RBAC (ADMIN/CUSTOMER/DELIVERY), CORS, 429 handling
 
 ---
 
-# 🔄 Background Jobs
+## 📈 Roadmap
 
-Redis + worker architecture can handle:
-
-* Emails
-* Notifications
-* Payment processing
-* Abandoned carts
-* Inventory alerts
-* Recommendation calculations
-* Report generation
-* Invoice generation
-* Scheduled promotions
-
-```text
-FastAPI
-   ↓
-Redis Queue
-   ↓
-Background Worker
-   ↓
-Task
-```
+- [x] Search & AI assistant architecture
+- [x] Wishlist + coupons + analytics + realtime
+- [x] Professional storefront
+- [ ] Vector search (pgvector) & embeddings
+- [ ] Vendor payout automation
+- [ ] Mobile app (Capacitor)
 
 ---
 
-# 🚀 Development Roadmap
-
-## Phase 1 — Foundation
-
-* [ ] Project architecture
-* [ ] Database
-* [ ] Authentication
-* [ ] RBAC
-* [ ] API versioning
-* [ ] Error handling
-* [ ] Logging
-
-## Phase 2 — Commerce
-
-* [ ] Products
-* [ ] Categories
-* [ ] Variants
-* [ ] Search
-* [ ] Filters
-* [ ] Wishlist
-* [ ] Reviews
-* [ ] Cart
-
-## Phase 3 — Checkout
-
-* [ ] Addresses
-* [ ] Shipping
-* [ ] Payments
-* [ ] Orders
-* [ ] Refunds
-* [ ] Invoices
-
-## Phase 4 — Marketplace
-
-* [ ] Vendors
-* [ ] Vendor dashboard
-* [ ] Vendor products
-* [ ] Commissions
-* [ ] Payouts
-
-## Phase 5 — Logistics
-
-* [ ] Warehouses
-* [ ] Delivery agents
-* [ ] Shipments
-* [ ] Delivery tracking
-* [ ] Delivery dashboard
-
-## Phase 6 — Admin
-
-* [ ] Admin dashboard
-* [ ] Analytics
-* [ ] Inventory
-* [ ] Promotions
-* [ ] CMS
-* [ ] Audit logs
-
-## Phase 7 — AI
-
-* [ ] AI search
-* [ ] Recommendations
-* [ ] Shopping assistant
-* [ ] Sentiment analysis
-* [ ] Smart upselling
-
-## Phase 8 — Real-Time
-
-* [ ] WebSockets
-* [ ] Live notifications
-* [ ] Chat
-* [ ] Live inventory
-* [ ] Live order tracking
-
-## Phase 9 — Production
-
-* [ ] Docker
-* [ ] Redis
-* [ ] Background workers
-* [ ] Nginx
-* [ ] CI/CD
-* [ ] Monitoring
-* [ ] Backups
-* [ ] Security hardening
-
----
-
-# 🌟 Vision
-
-Heritage Ecommerce aims to become more than a traditional online store.
-
-The long-term vision is to provide an integrated commerce platform combining:
-
-```text
-                 HERITAGE
-                    │
-       ┌────────────┼────────────┐
-       │            │            │
-   Marketplace   Payments    Logistics
-       │            │            │
-       └────────────┼────────────┘
-                    │
-                   AI
-                    │
-             Analytics
-                    │
-             Local Commerce
-```
-
-The platform is designed to be scalable from a single online store to a complete **multi-vendor marketplace serving customers and businesses across Ethiopia and beyond**.
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-```bash
-git checkout -b feature/new-feature
-
-git add .
-
-git commit -m "feat: add new feature"
-
-git push origin feature/new-feature
-```
-
-Then create a Pull Request.
-
----
-
-# 📄 License
-
-This project is intended for educational, portfolio, and commercial development purposes.
-
-Add your preferred license before production deployment.
-
----
-
-# 👨‍💻 Author
-
-**Heritage Ecommerce Development Team**
-
-Built with:
-
-```text
-Python + FastAPI
-Vue.js + Vite
-PostgreSQL
-Redis
-Docker
-AI
-```
-
----
-
-# ⭐ Project Status
-
-```text
-████████████████████░░  Advanced Development
-
-Backend        ███████████████░░░
-Frontend       ███████████████░░░
-Marketplace    ███████████░░░░░░
-Payments       ██████████░░░░░░░
-AI             ███████░░░░░░░░░░
-Analytics      █████████░░░░░░░░
-Logistics      ████████░░░░░░░░░
-```
-
-> **Heritage Ecommerce — Building the future of digital commerce.**
+**HeritageHub — Building the future of digital commerce for Ethiopia & beyond.** 🇪🇹

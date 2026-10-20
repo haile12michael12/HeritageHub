@@ -20,15 +20,22 @@ router = APIRouter(prefix="/products", tags=["Products"])
 
 @router.get("", status_code=status.HTTP_200_OK)
 async def list_products(
-    category_id: int | None = None, db: AsyncSession = Depends(db_session)
-) -> ApiResponse[list[ProductRead]]:
+    category_id: int | None = None,
+    q: str | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None,
+    sort_by: str | None = None,
+    page: int = 1,
+    page_size: int = 12,
+    db: AsyncSession = Depends(db_session)
+) -> ApiResponse[dict]:
 
-    products = await get_all_products(db, category_id)
+    result = await get_all_products(db, category_id, q, min_price, max_price, sort_by, page, page_size)
 
-    return ApiResponse[list[ProductRead]](
+    return ApiResponse[dict](
         status=status.HTTP_200_OK,
         message="Products fetched successfully",
-        data=products,
+        data=result,
     )
 
 
